@@ -1,0 +1,65 @@
+extends ./../layout
+
+block left_menu
+  +leftMenu("support")
+
+block content
+    import ./mixin_verification_menu.amber
+    $viewUser = ViewUser
+    $localization = Localization
+    +verificationMenu($viewUser, $localization, "plans")
+    div.ui.cards.centered
+      div.ui.card
+        div.premium-card-header.bronze
+          h1 $99
+        div.content
+          a.header[href="/verification/plan/bronze"] Bronze
+          div.description
+            ul
+              li 10% commission rate
+              li 10% referral revenue share
+        div.extra.content
+          if !ViewUser.IsGoldAccount && !ViewUser.IsSilverAccount && !ViewUser.IsBronzeAccount
+            a.ui.button.icon.dark-green.big.fluid[href="/verification/plan/bronze"] Purchase
+          else if ViewUser.IsBronzeAccount
+            a.ui.button.icon.big.fluid Purchased
+          else
+            a.ui.button.icon.big.fluid xD
+      div.ui.card
+        div.premium-card-header.silver
+          h1 $199
+          if ViewUser.IsBronzeAccount 
+            h2 Upgrade for $99
+        div.content
+          a.header[href="/verification/plan/silver"] Silver
+          div.description
+            ul
+              li 5% commission rate
+              li 20% referral revenue share
+        div.extra.content
+          if !ViewUser.IsGoldAccount && !ViewUser.IsSilverAccount
+            a.ui.button.icon.dark-green.big.fluid[href="/verification/plan/silver"] Purchase
+          else if ViewUser.IsSilverAccount
+            a.ui.button.icon.big.fluid Purchased
+          else
+            a.ui.button.icon.dark-green.big.fluid[href="/verification/plan/silver"] Upgrade Account
+      div.ui.card
+        div.premium-card-header.gold
+          h1 $299
+          if ViewUser.IsSilverAccount 
+            h2 Upgrade for $99
+          if ViewUser.IsBronzeAccount 
+            h2 Upgrade for $199
+        div.content
+          a.header[href="/verification/plan/gold"] Gold
+          div.description
+            ul
+              li 2% commission rate
+              li 30% referral revenue share
+        div.extra.content
+          if !ViewUser.IsGoldAccount
+            a.ui.button.icon.dark-green.big.fluid[href="/verification/plan/gold"] Purchase
+          else if ViewUser.IsGoldAccount
+            a.ui.button.icon.big.fluid Purchased
+          else
+            a.ui.button.icon.dark-green.big.fluid[href="/verification/plan/silver"] Upgrade Account

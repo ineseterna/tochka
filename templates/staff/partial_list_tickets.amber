@@ -1,0 +1,38 @@
+$localization = Localization
+if len(ViewSupportTickets) > 0
+  table.ui.table.basic
+    thead
+      tr.center.aligned
+        th
+        th Username
+        th Category / Title
+        th Status
+        th Proirity
+        th
+    tbody
+      each $st in ViewSupportTickets
+        tr.center.aligned
+          td
+            img.ui.mini.circular.image.right.floated[src="/user-avatar/"+$st.User.Username+"?size=small"]
+          td
+            a[href="/user/"+$st.User.Username] 
+              $lang=$st.User.Language
+              if $lang == "en"
+                i.flag.us
+              else
+                i.flag[class=$lang]
+              | @#{$st.User.Username}
+            br
+            if $st.User.IsSeller
+              div.ui.label.tiny #{$localization.UserCard.Vendor}
+            else
+              div.ui.label.tiny #{$localization.UserCard.Buyer}
+          td
+            | #{$st.Category}
+            br
+            a[href="/support/"+$st.Uuid] #{$st.Title}
+          td
+            span.ui.label.tiny #{$st.CurrentStatus}
+          td
+            span.ui.label.tiny #{$st.Priority}
+          td #{$st.CreatedAtStr}

@@ -1,0 +1,267 @@
+mixin leftMenu($section)
+  if ViewUser.Uuid != ""
+    div.ui.menu.tiny.vertical.secondary.fluid
+      a.item[href="/marketplace"]
+        [class="active"] ? $section == "items"
+        i.ui.icon.shop
+        | #{Localization.Layout.Marketplace}
+      a.item[href="/vendors"]
+        [class="active"] ? $section == "sellers"
+        i.ui.icon.users
+        | #{Localization.Layout.Vendors}
+      a.item[href="/shoutbox"]
+        [class="active"] ? $section == "shoutbox"
+        | #{Localization.LeftMenu.News}
+        i.icon.comments.outline
+      a.item[href="/feed"]
+        [class="active"] ? $section == "feed"
+        | #{Localization.LeftMenu.Feed}
+        i.icon.feed
+      a.item[href="/board"]
+        [class="active"] ? $section == "messageboard"
+        | #{Localization.LeftMenu.Board}
+        i.icon.users
+      a.item[href="/help"]
+        [class="active"] ? $section == "help"
+        i.ui.icon.info
+        | #{Localization.Layout.Help}
+      if ViewUser.IsStaff || ViewUser.IsAdmin
+         a.ui.item[href="/staff/users"]
+          i.ui.icon.users
+          | #{Localization.Staff.Staff} 
+    div.ui.section.divider.left-menu
+    div.ui.menu.tiny.vertical.secondary.fluid
+      a.item[href="/payments"]
+        [class="active"] ? $section == "transactions"
+        | #{Localization.LeftMenu.Orders}
+        span.ui.label.tiny.circular #{NumberOfTransactions}
+      if NumberOfDisputes > 0
+        a.item[href="/dispute"]
+          [class="active"] ? $section == "disputes"
+          | #{Localization.LeftMenu.Disputes}
+          span.ui.label.tiny #{NumberOfDisputes}
+      a.item[href="/messages"]
+        [class="active"] ? $section == "messages"
+        | #{Localization.LeftMenu.PMs}
+        if NumberOfUnreadPrivateMessages > 0
+          span.ui.tiny.teal.label.circular #{NumberOfUnreadPrivateMessages}
+        else
+          span.ui.label.tiny.circular #{NumberOfPrivateMessages}
+      a.ui.item[href="/support"]
+        [class="active"] ? $section == "support"
+        | #{Localization.LeftMenu.Support}
+        if NumberOfUnreadSupportMessages > 0
+          span.ui.tiny.teal.label.circular #{NumberOfUnreadSupportMessages}
+        else
+          span.ui.label.tiny.circular #{NumberOfSupportMessages}
+  div.ui.section.divider.left-menu
+  div.ui.menu.fluid.tiny
+    div.ui.simple.dropdown.item.fluid
+      if ViewUser.Language == "ru" 
+        i.russia.flag
+        | Русский
+      if ViewUser.Language == "rs"
+        i.serbia.flag
+        | Srpski
+      if ViewUser.Language == "en"
+        i.united.kingdom.flag
+        | English
+      if ViewUser.Language == "fr"
+        i.france.flag
+        | Français
+      if ViewUser.Language == "it"
+        i.italy.flag
+        | Italiano     
+      if ViewUser.Language == "de"
+        i.germany.flag
+        | Deutsche
+      if ViewUser.Language == "es"
+        i.spain.flag
+        | Español
+      if ViewUser.Language == "tr"
+        i.turkey.flag
+        | Türkçe        
+      div.menu.fluid
+        a.item.fluid[href="/settings/language/de"] 
+          i.germany.flag
+          | Deutsche
+        a.item.fluid[href="/settings/language/en"] 
+          i.united.kingdom.flag
+          | English
+        a.item.fluid[href="/settings/language/es"] 
+          i.spain.flag
+          | Español
+        a.item.fluid[href="/settings/language/fr"] 
+          i.france.flag
+          | Français
+        a.item.fluid[href="/settings/language/it"] 
+          i.italy.flag
+          | Italiano
+        a.item.fluid[href="/settings/language/ru"] 
+          i.russia.flag
+          | Русский
+        a.item.fluid[href="/settings/language/rs"] 
+          i.serbia.flag
+          | Srpski
+        a.item.fluid[href="/settings/language/tr"] 
+          i.turkey.flag
+          | Türkçe
+  import ./advertising/partial_advertising
+doctype 5
+html
+  head
+    link[rel="stylesheet"][type="text/css"][href="/css/semantic.css"]
+    link[rel="stylesheet"][type="text/css"][href="/css/tochka.css"]
+    link[rel="shortcut icon"][href="/img/favicon.ico"]
+    title #{SiteName}
+    meta[name="viewport"][content="width=device-width, initial-scale=1"]
+    block meta
+  body
+    if ViewUser.IsAdmin
+      div.ui.inverted.red.menu.admin
+        a.item[href="/auth/admin/users"]
+          i.icon.users
+        a.item[href="/payments/admin/list"]
+          i.icon.payment
+        a.item[href="/referrals/admin"]
+          i.icon.bitcoin
+        a.item[href="/support/admin"]
+          i.icon.ticket.up
+        a.item[href="/dispute/admin/list"]
+          i.icon.exclamation
+        a.item[href="/messages/admin"]
+          i.icon.chat
+        a.item[href="/staff/item_categories"]
+          i.icon.sitemap
+        a.item[href="/messageboard_sections/admin"]
+          i.icon.folder
+        a.item[href="/staff/advertising"]
+          i.icon.adn
+    div.ui.container
+      div.sixteen.wide.column
+        div.ui.grid
+          div.three.wide.column
+            div.ui.menu.tiny.vertical.secondary.fluid
+              a.item.header-logo.header[href="/"]
+                if Language == "ru" || ViewUser.Language == "ru"
+                  span.logo-y Т
+                  span.dark-green.point •
+                  span.logo-b1 ч
+                  span.logo-b2 к
+                  span.logo-r а
+                else
+                  span.logo-y  P
+                  span.dark-green.point •
+                  span.logo-b1 i
+                  span.logo-b2 n
+                  span.logo-g t
+          div.thirteen.wide.column
+            div.ui.grid
+              div.twelve.wide.column
+              div.two.wide.column
+              div.two.wide.column.user-menu-container
+                  img.ui.image.circular.right.floated[src="/user-avatar/" + ViewUser.Username + "?size=small"]
+                  div.ui.segment.user-menu
+                    h3.ui.dividing.header 
+                      img.ui.image.circular[src="/user-avatar/" + ViewUser.Username + "?size=small"]
+                      | @#{ViewUser.Username}
+                    div.ui.menu.tiny.vertical.secondary.fluid
+                      a.item[href="/user/"+ViewUser.Username]
+                        i.icon.user
+                        | #{Localization.Auth.MyAccount}
+                      a.item[href="/profile"]
+                        i.ui.icon.settings
+                        | #{Localization.Layout.Settings}
+                      a.item[href="/referrals"]
+                        i.icon.level.up
+                        | #{Localization.LeftMenu.Referrals}
+                    div.ui.section.divider
+                    div.ui.menu.tiny.vertical.secondary.fluid
+                      span.item
+                        strong #{Localization.Layout.Wallet}
+                      a.item[href="/wallet/bitcoin_cash/receive"]
+                        | Bitcoin Cash
+                        span.ui.label.tiny.dark-green #{UserBitcoinCashBalance.Balance} 
+                      a.item[href="/wallet/bitcoin/receive"]
+                        | Bitcoin
+                        span.ui.label.tiny.dark-green #{UserBitcoinBalance.Balance} 
+                      a.item[href="/wallet/ethereum/receive"]
+                        | Ethereum
+                        span.ui.label.tiny.dark-green #{UserEthereumBalance.Balance} 
+                    if ViewUser.IsSeller && (ViewUser.AllowedToSell)
+                      div.ui.section.divider
+                      div.ui.fluid.buttons.vertical
+                        a.ui.button.tiny.fluid[href="/seller/"+ViewUser.Username+"/item/new/edit"]
+                          i.icon.plus
+                          | #{Localization.Items.AddItem}
+                        a.ui.button.tiny.fluid[href="/seller/"+ViewUser.Username+"/advertisings"]
+                          i.icon.adn
+                          | Advertisings
+                        a.ui.button.tiny.fluid[href="/deposit"] Deposits
+                    div.ui.section.divider
+                    $userCurrency = ViewUser.Currency
+                    div.ui.menu.tiny.vertical.secondary.fluid
+                      span.item
+                        strong #{Localization.Layout.BTCRates}
+                      each $fiatCurreny, $rates in CurrencyRates
+                        if $fiatCurreny == $userCurrency
+                          each $cryptoCurrency, $ccRate in $rates
+                            span.item
+                              | #{$ccRate} 
+                              span.ui.label.tiny.dark-green #{$cryptoCurrency}
+                    div.ui.menu.fluid.tiny
+                      div.ui.simple.dropdown.item.fluid
+                        strong #{ViewUser.Currency}
+                        div.menu.fluid
+                          each $fiatCurreny, $rates in CurrencyRates
+                            a.item.fluid[href="/settings/currency/"+$fiatCurreny]
+                              strong #{$fiatCurreny}
+                              each $cryptoCurrency, $ccRate in $rates
+                                div.cryptoRate
+                                  strong #{$cryptoCurrency}
+                                  span #{$ccRate} 
+                    div.ui.section.divider
+                    form.ui.form[action="/auth/logout"][method="post"]
+                      input[type="hidden"][name="csrf_token"][value=CSRFToken]
+                      button.ui.button.red.fluid.tiny[type="submit"]
+                        i.icon.sign.out.fluid
+                        | #{Localization.LeftMenu.SignOut}
+      div.sixteen.wide.column
+        div.tochka-container.ui.grid.divided
+          if ViewUser.Uuid != ""
+            div.three.wide.column.tochka-left.menu
+              if ViewUser.RequiredVerification
+                a.ui.button.teal[href="/verification/encryption"] #{Localization.Auth.VerifyAccount}
+              block left_menu
+          div.thirteen.wide.column
+            [class="sixteen wide"] ? ViewUser.Uuid == ""
+              if ViewUser.NumberOfRedWarnings > 0
+                div.ui.divided.grid
+                  div.sixteen.wide.column.border-bottom
+                    div.ui.red.icon.message
+                      i.icon.exclamation
+                      div.content
+                        a.header[href="/user/"+ViewUser.Username+"/warnings"] You have a RED warning
+                        div Until warning has been expired or removed your items are delisted from Marketplace and you are unable to withdraw funds
+            block content
+          div.sixteen.wide.column.footer
+            div.ui.grid
+              div.three.wide.column
+                div.ui.menu.secondary.horizontal.fluid
+                  span.item.header.centered[style="width:100%"][href="http://34n4am6fxu4dnv66.onion/"] Tochka Foundation
+              div.thirteen.wide.column
+                div.ui.menu.tiny.horizontal.secondary.fluid
+                  a.item[href="http://34n4am6fxu4dnv66.onion/blog"]
+                    i.ui.icon.feed
+                    | Blog
+                  a.item[href="http://34n4am6fxu4dnv66.onion/wiki"]
+                    i.ui.icon.info
+                    | Wiki
+                  a.item[href="http://34n4am6fxu4dnv66.onion/ico"]
+                    i.ui.selected.radio.icon
+                    | ICO
+                  a.item[href="http://qxklmrhx7qkzais6.onion/"]
+                    i.ui.github.icon
+                    | Source Code
+                  a.item[href="http://qxklmrhx7qkzais6.onion/Tochka/tochka-free-market"] Tochka is Open-Source Software subject to the MIT License
+                  h4 #{RenderTime}

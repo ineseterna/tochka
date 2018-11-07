@@ -1,0 +1,92 @@
+extends ./../layout
+
+block left_menu
+  +leftMenu("")
+
+block content
+  div.ui.grid.centered.divided
+    div.twelve.wide.column
+      $seller = ViewSeller
+      $l = Localization
+      $user = ViewUser
+      $item = ViewItem
+      form.ui.segment.form.segment[method="POST"]
+        [class="error"] ? Error
+        h3.ui.dividing.header
+          if $item.ScoreFloat > 0.0
+            div.tiny.ui.label.floated.right
+              i.icon.thumbs.up
+              span #{$item.ScoreFloat}
+          | #{$item.Name}
+        if Error
+          div.ui.error.message
+            div.header #{Localization.Auth.Error}
+            p #{Error}
+        div.field
+          label #{Localization.Items.Name}
+          span #{GroupAvailability.ItemName}
+        div.ui.section.divider
+        div.field
+          label #{Localization.Items.PackageName}
+          span #{GroupAvailability.PackageName}
+        div.ui.section.divider
+        div.field
+          label #{Localization.Items.Price}
+          span 
+            | #{GroupAvailability.PriceBTCStr} 
+            strong BTC
+            br
+            | #{GroupAvailability.PriceETHStr} 
+            strong ETH
+            br
+            | #{GroupAvailability.PriceBCHStr} 
+            strong BCH
+        if GroupAvailability.Type != "digital" && GroupAvailability.Type != "drop"
+          div.ui.section.divider
+          div.field
+            label Quantity
+            div.ui.input
+              input[type="number"][value="1"][name="quantity"]
+        if GroupAvailability.Type == "mail"
+          div.ui.section.divider
+          div.field
+            label Vendor PGP Key
+            pre #{$seller.Pgp}
+          div.ui.section.divider
+          div.field
+            label Shipping Address (Please encrypt using PGP key above)
+            textarea[name="shipping_address"]
+          if len(ViewSeller.ShippingOptions) > 0
+            div.ui.section.divider
+            div.field
+              label Shipping Options
+              div.ui.left.input
+                select[name="shipping_id"]
+                  each $option in ViewSeller.ShippingOptions
+                    option[value=$option.ID] #{$option.Name} (+$#{$option.PriceUSD})
+        div.ui.section.divider
+        div.grouped.fields 
+          div.field
+            div.ui.radio.checkbox
+              input[type="radio"][name="type"][value="ethereum"][id="pay_via_ethereum"][checked]
+              label[for="pay_via_ethereum"] [Ehrereum] #{Localization.Orders.PayViaEscrow}
+          div.field
+            div.ui.radio.checkbox
+              input[type="radio"][name="type"][value="bitcoin"][id="pay_via_bitcoin"]
+              label[for="pay_via_bitcoin"] [Bitcoin] #{Localization.Orders.PayViaEscrow}
+          div.field
+            div.ui.radio.checkbox
+              input[type="radio"][name="type"][value="bitcoin_cash"][id="pay_via_bitcoin_cash"]
+              label[for="pay_via_bitcoin_cash"] [Bitcoin Cash] #{Localization.Orders.PayViaEscrow}
+        div.ui.section.divider
+        div.field
+          button.ui.large.button.dark-green.submit[type="submit"] 
+            i.icon.cart
+            span #{$l.Items.Purchase}
+    div.four.wide.column.t-left-menu-items
+      $l = Localization
+      $v = ViewSeller
+      $t = ViewThread
+      import ./../store/mixin_user_menu
+      +userMenu($v, $t, $l, "items")
+

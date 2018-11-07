@@ -1,0 +1,29 @@
+extends ./../layout
+
+block left_menu
+  +leftMenu("staff")
+
+block content
+  $viewUser = ViewUser
+  $localization = Localization
+  div.ui.divided.grid
+    div.twelve.wide.column
+      if len(ViewItems) > 0
+        each $itm in ViewItems
+          import ./../item/mixin_item_row
+          $i = $itm
+          $u = $viewUser
+          +itemRow($i, $u, $localization)
+        if len(Pages) > 0
+          div.ui.section.divider   
+          div.ui.pagination.menu
+            $selected = SelectedPage
+            $section = SelectedSection
+            each $page in Pages
+              div.item 
+                .active ? $page == $selected
+                a[href="?page="+$page+"&section="+$section] #{$page}
+    div.four.wide.column.t-left-menu-items
+      import ./mixin_staff_menu
+      $localization = Localization
+      +staffMenu($localization, "items")

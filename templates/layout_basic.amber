@@ -1,0 +1,115 @@
+doctype 5
+html
+  head
+    link[rel="stylesheet"][type="text/css"][href="/css/semantic.css"]
+    link[rel="stylesheet"][type="text/css"][href="/css/tochka.css"]
+    link[rel="shortcut icon"][href="/img/favicon.ico"]
+    title #{SiteName}
+    meta[name="viewport"][content="width=device-width, initial-scale=1"]
+    block meta
+  body
+    div.ui.container
+      div.sixteen.wide.column
+        div.ui.grid
+          div.three.wide.column
+            div.ui.menu.tiny.vertical.secondary.fluid
+              a.item.header-logo.header[href="/"]
+                if Language == "ru" || ViewUser.Language == "ru"
+                  span.logo-y Т
+                  span.dark-green.point •
+                  span.logo-b1 ч
+                  span.logo-b2 к
+                  span.logo-r а
+                else
+                  span.logo-y P
+                  span.dark-green.point •
+                  span.logo-b1 i
+                  span.logo-b2 n
+                  span.logo-g t
+          div.thirteen.wide.column
+      div.sixteen.wide.column
+        div.tochka-container.ui.grid.divided
+          div.three.wide.column.tochka-left.menu   
+            div.ui.menu.tiny.vertical.secondary.fluid
+              a.item[href="/auth/register"]
+                [class="active"] ? SelectedSection == "register"
+                i.ui.icon.edit
+                | #{Localization.Layout.Register}
+              a.item[href="/auth/login"]
+                [class="active"] ? SelectedSection == "login"
+                i.ui.icon.sign.in
+                | #{Localization.Layout.Login}
+            div.ui.section.divider.left-menu
+            div.ui.menu.fluid.tiny
+              div.ui.simple.dropdown.item.fluid
+                if Language == "ru" 
+                  i.russia.flag
+                  | Русский
+                if Language == "en" || Language == ""
+                  i.united.kingdom.flag
+                  | English
+                if Language == "fr"
+                  i.france.flag
+                  | Français
+                if Language == "de"
+                  i.germany.flag
+                  | Deutsche
+                if Language == "es"
+                  i.spain.flag
+                  | Español
+                if Language == "rs"
+                  i.serbia.flag
+                  | Srpski
+                if Language == "tr"
+                  i.turkey.flag
+                  | Türkçe
+                if Language == "it"
+                  i.italy.flag
+                  | Italiano
+                div.menu.fluid
+                  a.item.fluid[href="?language=de"] 
+                    i.germany.flag
+                    | Deutsche
+                  a.item.fluid[href="?language=en"] 
+                    i.united.kingdom.flag
+                    | English
+                  a.item.fluid[href="?language=es"] 
+                    i.spain.flag
+                    | Español
+                  a.item.fluid[href="?language=fr"] 
+                    i.france.flag
+                    | Français
+                  a.item.fluid[href="?language=it"] 
+                    i.italy.flag
+                    | Italiano
+                  a.item.fluid[href="?language=ru"] 
+                    i.russia.flag
+                    | Русский
+                  a.item.fluid[href="?language=rs"] 
+                    i.serbia.flag
+                    | Srpski
+                  a.item.fluid[href="?language=tr"] 
+                    i.turkey.flag
+                    | Türkçe
+          div.thirteen.wide.column
+            block content
+          div.sixteen.wide.column.footer
+            div.ui.grid
+              div.three.wide.column
+                div.ui.menu.secondary.horizontal.fluid
+                  span.item.header.centered[style="width:100%"][href="http://34n4am6fxu4dnv66.onion/"] Tochka Foundation
+              div.thirteen.wide.column
+                div.ui.menu.tiny.horizontal.secondary.fluid
+                  a.item[href="http://34n4am6fxu4dnv66.onion/blog"]
+                    i.ui.icon.feed
+                    | Blog
+                  a.item[href="http://34n4am6fxu4dnv66.onion/wiki"]
+                    i.ui.icon.info
+                    | Wiki
+                  a.item[href="http://34n4am6fxu4dnv66.onion/ico"]
+                    i.ui.selected.radio.icon
+                    | ICO
+                  a.item[href="http://qxklmrhx7qkzais6.onion/"]
+                    i.ui.github.icon
+                    | Source Code
+                  a.item[href="http://qxklmrhx7qkzais6.onion/Tochka/tochka-free-market"] Tochka is Open-Source Software subject to the MIT License

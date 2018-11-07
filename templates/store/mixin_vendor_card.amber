@@ -1,0 +1,53 @@
+mixin vendorCard($viewUser, $localization)
+  div.ui.card
+    div.content.card-header
+      a.header[href="/user/"+$viewUser.Username] @#{$viewUser.Username}
+    div.image
+      img[src="/user-avatar/" + $viewUser.Username]
+    div.content
+      if $viewUser.IsSeller
+        span.ui.label.small.ribbon Vendor
+      else if $viewUser.IsAdmin
+        span.ui.label.small.ribbon Admin
+      else if $viewUser.IsStaff
+        span.ui.label.small.ribbon Staff
+      else
+        span.ui.label.small.ribbon Buyer
+      if $viewUser.IsGoldAccount
+        span.ui.small.label.orange Gold Account
+      if $viewUser.IsSilverAccount
+        span.ui.small.label.grey Silver Account
+      if $viewUser.IsBronzeAccount
+        span.ui.small.label.brown Bronze Account
+      if $viewUser.IsFreeAccount
+        span.ui.small.label Free Account
+      if $viewUser.IsTrustedSeller
+        span.ui.small.label Verified  
+      if $viewUser.IsStaff || $viewUser.IsAdmin
+        span.ui.label.teal.dark-green.small
+          i.icon.level.up
+          | #{$viewUser.StaffLevel} lvl
+      else if $viewUser.IsSeller
+        span.ui.label.teal.dark-green.small
+          i.icon.level.up
+          | #{$viewUser.VendorLevel} lvl
+        if $viewUser.Score > 0
+          div.ui.label.dark-green
+            i.icon.thumbs.up
+            span #{$viewUser.Score}
+      if $viewUser.HasDeposits
+        span.ui.small.teal.label Insured
+    if $viewUser.Description != ""
+      div.content
+        div.description #{$viewUser.Description}
+    div.extra.content
+      div.date 
+        i.icon.wait
+        span #{$localization.UserCard.Registred} #{$viewUser.RegistrationDateStr}
+      div.date 
+        i.icon.wait
+        span #{$localization.UserCard.LastSeen} #{$viewUser.LastLoginDateStr}
+    div.extra.content
+      a.ui.button.dark-green[href="/messages/"+$viewUser.Username]
+        i.icon.comment
+        | #{$localization.LeftMenu.PM}

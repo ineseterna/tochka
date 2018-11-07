@@ -1,0 +1,76 @@
+extends ./../layout
+
+block left_menu
+  +leftMenu("staff")
+
+block content
+  $viewUser = ViewUser
+  $localization = Localization
+  $supportTickets = ViewSupportTickets
+  div.ui.divided.grid
+    div.twelve.wide.column
+      div.ui.horizontal.menu.tiny.secondary.basic.fluid
+        a.item[href="?section=all"]
+          [class="active"] ? SelectedSection=="all"
+          | All Tickets
+        a.item[href="?section=all"]
+          [class="active"] ? SelectedSection=="new-open"
+          | Need Response
+        a.item[href="?section=NEW"]
+          [class="active"] ? SelectedSection=="NEW"
+          | New Tickets
+        a.item[href="?section=OPENED"]
+          [class="active"] ? SelectedSection=="OPENED"
+          | Opened Tickets
+        a.item[href="?section=CLOSED"]
+          [class="active"] ? SelectedSection=="CLOSED"
+          | Closed Tickets
+      if len(ViewSupportTickets) > 0
+        table.ui.table.basic
+          thead
+            tr.center.aligned
+              th
+              th Username
+              th Category / Title
+              th Status
+              th Proirity
+              th
+          tbody
+            each $st in ViewSupportTickets
+              tr.center.aligned
+                td
+                  img.ui.mini.circular.image.right.floated[src="/user-avatar/"+$st.User.Username+"?size=small"]
+                td
+                  a[href="/user/"+$st.User.Username] 
+                    $lang=$st.User.Language
+                    if $lang == "en"
+                      i.flag.us
+                    else
+                      i.flag[class=$lang]
+                    | @#{$st.User.Username}
+                  br
+                  if $st.User.IsSeller
+                    div.ui.label.tiny #{$localization.UserCard.Vendor}
+                  else
+                    div.ui.label.tiny #{$localization.UserCard.Buyer}
+                td
+                  | #{$st.Category}
+                  br
+                  a[href="/staff/users/" + $st.User.Username  + "/tickets/" + $st.Uuid] #{$st.Title}
+                td
+                  span.ui.label.tiny #{$st.CurrentStatus}
+                td
+                  span.ui.label.tiny #{$st.Priority}
+                td #{$st.CreatedAtStr}
+        div.ui.section.divider
+        div.ui.pagination.menu
+          $selected = SelectedPage
+          $section = SelectedSection
+          each $page in Pages
+            div.item 
+              .active ? $page == $selected
+              a[href="?page="+$page+"&section="+$section] #{$page}
+    div.four.wide.column.t-left-menu-items
+      import ./mixin_staff_menu
+      $localization = Localization
+      +staffMenu($localization, "tickets")

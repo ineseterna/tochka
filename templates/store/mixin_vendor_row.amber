@@ -1,0 +1,55 @@
+mixin vendorRow($seller, $localization)
+  div.comment
+    [class="premium"] ? $seller.AllowedToSell
+    a.avatar[href="/user/"+$seller.Username]
+      img[src="/user-avatar/" + $seller.Username + "?size=small"]
+    div.content
+      a.author[href="/user/"+$seller.Username] 
+        if $seller.IsOnline
+          i.icon.dark-green.circle
+        $lang=$seller.Language
+        if $lang == "en"
+          i.flag.us
+        else
+          i.flag[class=$lang]
+        | @#{$seller.Username}
+      div.metadata
+        i.icon.wait
+        span #{$localization.UserCard.Registred} #{$seller.RegistrationDateStr} 
+        i.icon.wait
+        span #{$localization.UserCard.LastSeen} #{$seller.LastLoginDateStr}
+      div.text
+        if $seller.PossibleScammer
+          div.metadata
+            div.ui.red.label.tiny #{$localization.UserCard.PossibleScammer}
+        if $seller.IsStaff
+          div.metadata
+            div.ui.label.tiny #{$localization.UserCard.Staff}
+        else if $seller.IsSeller
+          div.metadata
+              div.ui.purple.label.tiny #{$localization.UserCard.Vendor}
+        else
+          div.metadata
+            div.ui.dark-green.label.tiny #{$localization.UserCard.Buyer}
+        if $seller.IsGoldAccount
+          div.metadata
+            div.ui.teal.label.tiny Gold Account
+        if $seller.IsSilverAccount
+          div.metadata
+            div.ui.teal.label.tiny Silver Account
+        if $seller.IsBronzeAccount
+          div.metadata
+            div.ui.teal.label.tiny Bronze Account
+        if $seller.IsFreeAccount
+          div.metadata
+            div.ui.teal.label.tiny Free Account        
+        if $seller.Score > 0
+          div.metadata
+            div.ui.label.tiny
+              i.icon.thumbs.up
+              span #{$seller.Score}
+        if $seller.MultisigEnabled
+          div.metadata
+            div.ui.label.tiny 
+              i.icon.bitcoin
+              span Multisig

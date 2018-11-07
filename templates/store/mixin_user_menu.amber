@@ -1,0 +1,33 @@
+mixin userMenu($seller, $thread, $localization, $menu_section)
+  import ./mixin_vendor_card_expanded
+  +vendorCard($seller, $localization)
+  if $seller.IsSeller
+    div.ui.vertical.menu.tiny.basic.fluid.secondary
+      a.item[href="/user/"+$seller.Username] 
+        [class="active"] ? "about" == $menu_section
+        i.icon.info
+        | #{$localization.AboutUser.About}
+      if len($seller.RatingReviews) > 0
+        a.item[href="/user/"+$seller.Username + "/reviews"]
+          [class="active"] ? "reviews" == $menu_section
+          i.icon.thumbs.up
+          span.ui.label.tiny #{len($seller.RatingReviews)}
+          | #{$localization.LeftMenu.Reviews}
+      a.item[href="/user/"+$seller.Username + "/items"] 
+        [class="active"] ? "items" == $menu_section
+        i.icon.cart
+        span.ui.label.tiny #{len($seller.Items)}
+        | #{$localization.LeftMenu.Items}
+      a.item[href="/user/"+$seller.Username+"/warnings"] 
+        [class="active"] ? "warnings" == $menu_section
+        i.icon.exclamation
+        if $seller.NumberOfRedWarnings > 0
+          span.ui.label.tiny.red #{$seller.NumberOfRedWarnings}
+        if $seller.NumberOfYellowWarnings > 0
+          span.ui.label.tiny.yellow #{$seller.NumberOfYellowWarnings}
+        if $seller.NumberOfGreenWarnings > 0
+          span.ui.label.tiny.green #{$seller.NumberOfGreenWarnings}
+        | Warnings
+  if ViewUser.IsStaff || ViewUser.IsAdmin
+    import ./../staff/mixin_user_menu
+    +userMenu($seller, "", $localization)

@@ -1,0 +1,44 @@
+extends ./../layout
+
+block left_menu
+  +leftMenu("staff")
+
+block content
+  $ViewUser = ViewUser
+  $localization = Localization
+  div.ui.divided.grid
+    div.twelve.wide.column
+      div.segment.ui
+        h2.ui.dividing.header Advertisings    
+        if len(Advertisings)>0
+          table.ui.table.striped
+            thead
+              th Seller
+              th Items
+              th Comment
+              th All / Current count 
+              th Status
+            tbody                    
+              each $ad in Advertisings
+                if $ad.Item.Uuid != ""
+                  tr
+                    td 
+                      a[href="/user/"+$ad.Item.User.Username] #{$ad.Item.User.Username}
+                    td 
+                      a[href="/user/"+$ad.Item.User.Username+"/item/"+$ad.Item.Uuid] #{$ad.Item.Name}
+                    td.ui.word-break 
+                      #{$ad.Comment}
+                    td 
+                      #{$ad.CountImpressions} / #{$ad.CurrentCountImpressions}
+                    td
+                      if $ad.Status
+                        p Active
+                      else
+                        p Stop
+        else
+          div.ui.segment
+            p No advertisings
+    div.four.wide.column.t-left-menu-items
+      import ./mixin_staff_menu
+      $localization = Localization
+      +staffMenu($localization, "advertising")

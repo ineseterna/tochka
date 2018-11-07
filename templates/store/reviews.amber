@@ -1,0 +1,35 @@
+extends ./../layout
+
+block left_menu
+  +leftMenu("sellers")
+
+block content
+  $l = Localization
+  $v = ViewSeller
+  $viewUser = ViewUser
+  div.ui.divided.grid
+    div.twelve.wide.column
+      div.segment.ui
+        h3.ui.dividing.header #{Localization.LeftMenu.Reviews}
+        div.ui.comments
+          each $review in ViewSeller.ViewRatingReviews
+            div.comment
+              span.ui.label.tiny.right.floated.dark-green
+                i.icon.thumbs.up
+                span #{$review.SellerScore}
+              a.avatar[href="/user/"+$review.User.Username]
+                img[src="/user-avatar/" + $review.User.Username + "?size=small"]
+              div.content
+                a.author[href="/user/"+$review.User.Username] @#{$review.User.Username}
+                div.metadata
+                  span.date #{$review.CreatedAtStr}
+                div.text
+                  pre.text #{$review.SellerReview}
+    div.four.wide.column.t-left-menu-items
+      $l = Localization
+      $v = ViewSeller
+      $t = ViewThread
+      import ./../store/mixin_user_menu
+      +userMenu($v, $t, $l, "reviews")
+
+

@@ -1,0 +1,38 @@
+extends ./../layout
+
+block menu
+  +topMenu("package")
+
+block content
+  div.ui.two.column.page.grid
+    div.sixteen.wide.column
+      div.segment.ui
+        h3.ui.header.dividing My purchases
+        if len(ViewPackages)>0
+          table.ui.table
+            thead
+              tr
+                th ID
+                th Seller
+                th Item
+                th Package
+                th Date
+                th Price
+            tbody
+              each $a in ViewPackages
+                tr
+                  td
+                    a.ui.teal.label.center.id[href="/packages/"+$a.Uuid] #{$a.Uuid}
+                  td 
+                    a[href="/user/"+$a.Seller.Username] @#{$a.Seller.Username}
+                  td 
+                    a[href="/packages/"+$a.Uuid] #{$a.Item.Name}
+                  td #{$a.Name}
+                  td #{$a.CompletedAt}
+                  td #{$a.PriceBTC}
+        else
+          div.ui.icon.message
+            i.icon.gift
+            div.content
+              div.header You haven't bought anything yet
+              p Buy something and purchases will appear here.

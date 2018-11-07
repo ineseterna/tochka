@@ -1,0 +1,50 @@
+doctype 5
+html
+  head
+    link[rel="stylesheet"][type="text/css"][href="/css/semantic.css"]
+    link[rel="stylesheet"][type="text/css"][href="/css/tochka.css"]
+    link[rel="shortcut icon"][href="/img/favicon.ico"]
+    title #{SiteName}
+    meta[name="viewport"][content="width=device-width, initial-scale=1"]
+    block meta
+  body
+    div.ui.container
+      div.sixteen.wide.column
+        div.ui.grid
+          div.three.wide.column
+            div.ui.menu.tiny.vertical.secondary.fluid
+              a.item.header-logo.header[href="/"]
+                if Language == "ru" || ViewUser.Language == "ru"
+                  span.logo-y Т
+                  span.dark-green.point •
+                  span.logo-b1 ч
+                  span.logo-b2 к
+                  span.logo-r а
+                else
+                  span.logo-y  P
+                  span.dark-green.point •
+                  span.logo-b1 i
+                  span.logo-b2 n
+                  span.logo-g t
+          div.thirteen.wide.column
+      div.sixteen.wide.column
+        div.tochka-container.ui.grid.divided
+          div.sixteen.wide.column
+            block content
+          div.sixteen.wide.column.footer
+            div.ui.menu.tiny.horizontal.secondary.fluid
+              a.item[href="http://34n4am6fxu4dnv66.onion/"] 
+                strong Tochka Foundation
+              a.item[href="http://34n4am6fxu4dnv66.onion/blog"]
+                i.ui.icon.feed
+                | Blog
+              a.item[href="http://34n4am6fxu4dnv66.onion/wiki"]
+                i.ui.icon.info
+                | Wiki
+              a.item[href="http://34n4am6fxu4dnv66.onion/ico"]
+                i.ui.selected.radio.icon
+                | ICO
+              a.item[href="http://qxklmrhx7qkzais6.onion/"]
+                i.ui.github.icon
+                | Source Code
+              a.item[href="http://qxklmrhx7qkzais6.onion/Tochka/tochka-free-market"] Tochka is Open-Source Software subject to the MIT License

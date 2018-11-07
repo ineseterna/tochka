@@ -1,0 +1,50 @@
+extends ./../layout
+block left_menu
+  +leftMenu("sellers")
+
+block content
+  $l = Localization
+  $seller = ViewSeller
+  div.ui.grid.centered.divided
+    div.eleven.wide.column
+      form.ui.segment.form
+        [method="POST"]
+        [enctype="multipart/form-data"]
+        [class="error"] ? Error
+        if Item.Uuid != ""
+          h3.ui.dividing.header #{Localization.Items.EditItem}
+        else
+          h3.ui.dividing.header #{Localization.Items.AddItem}
+        div.ui.error.message
+          div.header #{Localization.Items.Error}
+          p #{Error}
+        div.field.required
+          label #{Localization.Items.Name}
+          div.ui.input
+            input[type="text"][name="name"][placeholder="Name"][value=Item.Name][required]
+        div.field.required
+          label #{Localization.Items.Description}
+          div.ui.input
+            textarea[type="text"][name="description"][placeholder="Description"][required]
+              #{Item.Description}
+        div.field.required
+          label #{Localization.Items.Category}
+          div.ui.input
+            select[name="category"]
+              $selectedCategory = CategoryID
+              each $cat in Categories
+                option[name="category"][value=$cat.ID] 
+                  [selected] ? $cat.ID == $selectedCategory
+                  |  #{$cat.Name}
+        div.field.required
+          label #{Localization.Items.Image}
+          div.ui.input
+            input[type="file"][name="image"][size="40"]
+        div.ui.section.divider
+        button.ui.teal.submit.button[type="submit"] #{Localization.Items.Save}
+    div.five.wide.column
+      $l = Localization
+      $v = ViewSeller
+      $t = ViewThread
+      import ./../store/mixin_user_menu
+      +userMenu($v, $t, $l, "items")

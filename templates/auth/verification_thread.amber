@@ -1,0 +1,22 @@
+extends ./../layout
+
+block left_menu
+  +leftMenu("support")
+
+block content
+  import ./mixin_verification_menu.amber
+  $viewUser = ViewUser
+  $localization = Localization
+  $section = "verification"
+  +verificationMenu($viewUser, $localization, $section)
+  if !ViewSeller.HasRequestedVerification
+    div.ui.green.message
+      div.content
+        p #{Localization.Verification.VerificationInstructions}
+    form[method="POST"]
+      input[type="hidden"][name="request_trusted_vendor"][value="request_trusted_vendor"]
+      button.ui.button.dark-green[type="submit"] Request Verification
+  else
+    div.ui.message.dark-green Verification Request Pending
+  div.segment.ui
+    import ./../board/partial_thread.amber

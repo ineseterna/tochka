@@ -1,0 +1,19 @@
+extends ./../layout
+
+block left_menu
+  +leftMenu("support")
+
+block content
+  $localization = Localization
+  $seller = ViewSeller
+  div.ui.divided.grid
+    div.twelve.wide.column
+      import ./../store/mixin_admin_card
+      div.segment.ui
+        +adminMenu($seller)
+    div.four.wide.column.t-left-menu-items
+      $l = Localization
+      $v = ViewSeller
+      $t = ViewThread
+      import ./../store/mixin_user_menu
+      +userMenu($v, $t, $l, "staff")

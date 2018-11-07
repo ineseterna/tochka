@@ -1,0 +1,49 @@
+mixin itemRow($viewItem, $viewUser, $localization)
+  div.ui.card.w100p
+    div.content.card-header
+      a.header[href="/user/"+$viewItem.VendorUsername+"/item/"+$viewItem.ItemUuid]
+        | #{$viewItem.ItemName}
+    div.image
+      a[href="/user/"+$viewItem.VendorUsername+"/item/"+$viewItem.ItemUuid]
+        img.ui.centered[src="/item-image/" + $viewItem.ItemUuid + "?size=230x230"]
+    div.content
+      img.right.floated.mini.ui.image.circular[src="/user-avatar/"+$viewItem.VendorUsername+"?size=small"]
+      a.header[href="/user/"+$viewItem.VendorUsername] @#{$viewItem.VendorUsername}
+      div.meta
+        if $viewItem.VendorIsGoldAccount
+          span.ui.tiny.label.orange Gold Account
+        if $viewItem.VendorIsSilverAccount
+          span.ui.tiny.label.grey Silver Account
+        if $viewItem.VendorIsBronzeAccount
+          span.ui.tiny.label.brown Bronze Account
+        if $viewItem.VendorIsFreeAccount
+          span.ui.tiny.label Free Account  
+        span.ui.tiny.label.teal 
+          i.icon.level.up
+          | #{$viewItem.VendorLevel} lvl
+        if $viewItem.VendorScore > 0
+          span.ui.tiny.label.dark-green 
+            i.icon.thumbs.up
+            | #{$viewItem.VendorScore}
+    div.content
+      div.description #{$viewItem.ItemDescription}
+    div.extra.content
+      a.ui.large.left.labeled.fluid.button[href="/user/" + $viewItem.VendorUsername + "/item/" + $viewItem.ItemUuid]
+        span.ui.basic.right.pointing.label.fluid
+          if $viewItem.PriceStr == ""
+            each $i, $price in $viewItem.PriceRangeStr
+              | #{$price}
+              if $i == 0
+                |  - 
+          else
+            | #{$viewItem.PriceStr}
+          | #{$viewUser.Currency}
+        span.ui.button
+          if $viewItem.Type == "mail"
+            #{$localization.Items.Mail}
+          if $viewItem.Type == "digital"
+            #{$localization.Items.Digital}
+          if $viewItem.Type == "drop"
+            #{$localization.Items.Drop}
+          if $viewItem.Type == "drop preorder"
+            #{$localization.Items.DropPreorder}

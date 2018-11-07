@@ -1,0 +1,19 @@
+extends ./../layout
+
+block left_menu
+  +leftMenu("staff")
+
+block content
+  $viewUser = ViewUser
+  $localization = Localization
+  div.ui.divided.grid
+    div.twelve.wide.column
+      div.ui.cards.centered
+        each $user in ViewExtendedUsers
+          import ./mixin_staff_card
+          $u = $user
+          +staffCard($u, $localization)
+    div.four.wide.column.t-left-menu-items
+      import ./mixin_staff_menu
+      +staffMenu($localization, "staff")
+      

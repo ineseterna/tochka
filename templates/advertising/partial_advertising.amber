@@ -1,0 +1,9 @@
+each $ad in Advertisings
+  div.segment.secondary.ui.ui.word-break
+    h3.ui.dividing.header #{$ad.Item.Name}
+    a[href="/user/"+$ad.Item.User.Username+"/item/"+$ad.ItemUuid] #{$ad.Comment}
+    div.ui.section.divider
+    img.ui.image.rounded[src="/item-image/"+$ad.ItemUuid+"?size=200x200"]
+    div.ui.section.divider
+    strong 
+      a[href="/user/"+$ad.Item.User.Username] @#{$ad.Item.User.Username}

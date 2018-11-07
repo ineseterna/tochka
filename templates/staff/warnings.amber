@@ -1,0 +1,60 @@
+extends ./../layout
+
+block left_menu
+  +leftMenu("staff")
+
+block content
+  $viewUser = ViewUser
+  $localization = Localization
+  div.ui.divided.grid
+    div.twelve.wide.column
+      div.ui.cards
+        $user = ViewUser
+        each $warning in ViewUserWarnings
+          if $warning.Severety != "NEW" || ($warning.Severety == "NEW" && ($warning.Reporter.Uuid==$user.Uuid || $user.IsAdmin || $user.IsStaff))
+            div.card
+              div.content
+                img.right.floated.mini.ui.image.circular[src="/user-avatar/"+$warning.User.Username+"?size=small"]
+                a.header[href="/user/"+$warning.User.Username] @#{$warning.User.Username}
+              div.content
+                img.right.floated.mini.ui.image.circular[src="/user-avatar/"+$warning.Reporter.Username+"?size=small"]
+                span Reported by
+                a.header[href="/user/"+$warning.Reporter.Username] @#{$warning.Reporter.Username}
+                div.meta #{$warning.CreatedAtStr}
+                div.description
+                  pre #{$warning.Text}
+              div.extra.content
+                span.ui.large.label 
+                  [class="green"] ? $warning.Severety == "GREEN"
+                  [class="red"] ? $warning.Severety == "RED"
+                  [class="yellow"] ? $warning.Severety == "YELLOW"
+                  | #{$warning.Severety}
+              if $user.IsAdmin || $user.IsStaff
+                div.extra.content
+                  form.ui.form.message
+                    [method="POST"]
+                    [action="/user/"+$warning.User.Username+"/warnings/"+$warning.Uuid]
+                    div.grouped.fields
+                      label[for="severety"] Status
+                      div.field
+                        div.ui.radio.checkbox
+                          input[type="radio"][name="severety"][value="GREEN"]
+                          label[for="green"] Green
+                      div.field
+                        div.ui.radio.checkbox
+                          input[type="radio"][name="severety"][value="YELLOW"]
+                          label[for="yellow"] Yellow
+                      div.field
+                        div.ui.radio.checkbox
+                          input[type="radio"][name="severety"][value="RED"]
+                          label[for="red"] Red
+                      div.field
+                        div.ui.radio.checkbox
+                          input[type="radio"][name="severety"][value="DISCARD"]
+                          label[for="discard"] Discard
+                    div.field
+                      button.ui.button[type="submit"] Update Status
+    div.four.wide.column.t-left-menu-items
+      import ./mixin_staff_menu
+      +staffMenu($localization, "warnings")
+      

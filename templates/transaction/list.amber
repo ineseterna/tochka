@@ -1,0 +1,36 @@
+extends ./../layout
+
+block left_menu
+  +leftMenu("transactions")
+
+block content
+  div.ui.horizontal.menu.tiny.secondary
+    a.ui.item ALL
+      [href="?status="] 
+      [class="active"] ? SelectedStatus == ""
+    a.ui.item PENDING
+      [href="?status=PENDING"]     
+      [class="active"] ? SelectedStatus == "PENDING"
+    a.ui.item FAILED
+      [href="?status=FAILED"]   
+      [class="active"] ? SelectedStatus == "FAILED"    
+    a.ui.item COMPLETED
+      [href="?status=COMPLETED"] 
+      [class="active"] ? SelectedStatus == "COMPLETED"
+    a.ui.item RELEASED
+      [href="?status=RELEASED"]   
+      [class="active"] ? SelectedStatus == "RELEASED"
+    a.ui.item FROZEN
+      [href="?status=FROZEN"]       
+      [class="active"] ? SelectedStatus == "FROZEN"
+    a.ui.item CANCELLED
+      [href="?status=CANCELLED"] 
+      [class="active"] ? SelectedStatus == "CANCELLED"
+  if len(ViewCurrentTransactionStatuses) > 0
+    import ./partial_list.amber
+  else
+    div.ui.icon.message
+      i.icon.payment
+      div.content
+        div.header #{Localization.Orders.NoOrders}
+        p #{Localization.Orders.NoOrdersDescription}

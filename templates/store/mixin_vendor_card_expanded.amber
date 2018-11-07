@@ -1,0 +1,5 @@
+mixin vendorCard($seller, $localization)
+  import ./mixin_vendor_card
+  style div.user.info .card { width: 100% !important }
+  div.user.info
+    +vendorCard($seller, $localization)

@@ -1,0 +1,25 @@
+mixin adminMenu($user)
+  h3.ui.dividing.header Admin Actions
+  form.ui.form.fluid[action="/staff/users/"+$user.Username+"/ban"][method="POST"]
+    button.ui.mini.button.fluid.secondary[type="submit"] Ban User
+  div.ui.section.divider
+  form.ui.form.fluid[action="/staff/users/"+$user.Username+"/seller"][method="POST"]
+    button.ui.mini.button.fluid.secondary[type="submit"] Grant Seller Status
+  div.ui.section.divider
+  form.ui.form.fluid[action="/staff/users/"+$user.Username+"/gold"][method="POST"]
+    button.ui.mini.button.fluid.secondary[type="submit"] Grant Gold Account
+  div.ui.section.divider
+  form.ui.form.fluid[action="/staff/users/"+$user.Username+"/silver"][method="POST"]
+    button.ui.mini.button.fluid.secondary[type="submit"] Grant Silver Account
+  div.ui.section.divider
+  form.ui.form.fluid[action="/staff/users/"+$user.Username+"/bronze"][method="POST"]
+    button.ui.mini.button.fluid.secondary[type="submit"] Grant Bronze Account
+  div.ui.section.divider
+  form.ui.form.fluid[action="/staff/users/"+$user.Username+"/free"][method="POST"]
+    button.ui.mini.button.fluid.secondary[type="submit"] Grant Free Account
+  div.ui.section.divider
+  form.ui.form.fluid[action="/staff/users/"+$user.Username+"/trusted"][method="POST"]
+    button.ui.mini.button.fluid.secondary[type="submit"] Grant Trusted Vender
+  div.ui.section.divider
+  form.ui.form.fluid[action="/staff/users/"+$user.Username+"/possible_scammer"][method="POST"]
+    button.ui.mini.button.fluid.secondary[type="submit"] Mark as Scammer

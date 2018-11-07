@@ -1,0 +1,16 @@
+extends ./../layout
+
+block left_menu
+  +leftMenu("messages")
+
+block content
+  if len(ViewPrivateThreads) > 0
+    div.ui.two.column.grid.divided
+        div.five.wide.column.t-left-menu-items
+          import ./partial_messages
+        div.eleven.wide.column
+  else
+    div.ui.icon.message
+      i.icon.chat
+      div.content
+        div.header #{Localization.Messageboard.NoMessages}

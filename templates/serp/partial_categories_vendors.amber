@@ -1,0 +1,39 @@
+if len(ItemCategories) > 0
+  $selectedCategory = Category
+  $selectedSubcategory = SubCategory
+  $selectedCity = CityID
+  $selectedShippingTo = ShippingTo
+  $selectedShippingFrom = ShippingFrom
+  $user = ViewUser
+  each $cat in ItemCategories
+    if $cat.UserCount > 0
+      div.item.t-cat-item
+        span.header
+          a.cat[href="?city-id="+$selectedCity+"&category="+$cat.ID+"&shipping-to="+$selectedShippingTo+"&shipping-from="+$selectedShippingFrom]
+            [class="active"] ? $cat.NameEn==$selectedCategory
+            [class="active"] ? $selectedCategory == "all"
+            if $user.Language == "ru"
+              span #{$cat.NameRu}
+            else
+              span #{$cat.NameEn}
+        if len($cat.Subcategories) > 0 
+          div.menu
+            [class="hidden"] ? $cat.NameEn!=$selectedCategory && ($selectedCategory != "all")
+            each $subcat in $cat.Subcategories
+              if $subcat.UserCount > 0
+                a.item[href="?city-id="+$selectedCity+"&category="+$subcat.ID+"&shipping-to="+$selectedShippingTo+"&shipping-from="+$selectedShippingFrom]
+                  [class="active"] ? $subcat.NameEn==$selectedSubcategory
+                  if $user.Language == "ru"
+                    span #{$subcat.NameRu}
+                  else
+                    span #{$subcat.NameEn}
+                  if len($subcat.Subcategories) > 0
+                    each $subsubcat in $subcat.Subcategories
+                      if $subsubcat.UserCount > 0
+                        a.item.subsubcat[href="?city-id="+$selectedCity+"&category="+$subsubcat.ID+"&shipping-to="+$selectedShippingTo+"&shipping-from="+$selectedShippingFrom]
+                          [class="active"] ? $subsubcat.NameEn==$selectedSubcategory
+                          if $user.Language == "ru"
+                            span #{$subsubcat.NameRu}
+                          else
+                            span #{$subsubcat.NameEn}
+                          div.ui.floated.right #{$subsubcat.UserCount}
